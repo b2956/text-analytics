@@ -6,16 +6,12 @@ const readAndDecodeFile = (filePath) => {
 
     const data = fs.readFileSync(filePath, {
         encoding: 'utf-8'
-    },(err, pdfData) => {
-        if (!err) {
-            return iconvLite.decode(data, 'base64');
-        }
     });
 
     return data;    
 }
 
-const filePath = './text/Venezuela.txt';
+const filePath = './text/text.txt';
 
 
 const wordsArray = readAndDecodeFile(filePath)
@@ -32,11 +28,19 @@ const wordsArray = readAndDecodeFile(filePath)
     })
     .map(word => {
         return word
-            .replace(',', '')
-            .replace('.', '')
-            .replace('!', '')
-            .replace('?', '')
             .toLocaleLowerCase()
+            .replace(new RegExp(/\s/g),"")
+            .replace(new RegExp(/[àáâãäå]/g),"a")
+            .replace(new RegExp(/æ/g),"ae")
+            .replace(new RegExp(/ç/g),"c")
+            .replace(new RegExp(/[èéêë]/g),"e")
+            .replace(new RegExp(/[ìíîï]/g),"i")
+            .replace(new RegExp(/ñ/g),"n")                
+            .replace(new RegExp(/[òóôõö]/g),"o")
+            .replace(new RegExp(/œ/g),"oe")
+            .replace(new RegExp(/[ùúûü]/g),"u")
+            .replace(new RegExp(/[ýÿ]/g),"y")
+            .replace(new RegExp(/\W/g),"")
             .trim();
     })
     .filter(cur => cur !== '');
