@@ -45,18 +45,42 @@ const wordsArray = readAndDecodeFile(filePath)
     })
     .filter(cur => cur !== '');
 
-console.log(wordsArray);
+// console.log(wordsArray);
 
 
-const wordCount = wordsArray.reduce((acummulator, current) => {
+const wordCount = wordsArray.reduce((accumulator, current) => {
 
-    if(acummulator[current]) {
-        acummulator[current].quantity ++;
+    const wordIndex = accumulator.findIndex(cur => {
+        return cur.word === current
+    });
+
+    if(wordIndex !== -1) {
+        accumulator[wordIndex].quantity ++;
     } else {
-        acummulator[current] = { quantity: 1 };
+        accumulator.push({
+            word: current,
+            quantity: 1
+        });
     } 
 
-    return acummulator
+    return accumulator
 }, []);
 
-console.log(wordCount);
+// console.log(wordCount);
+
+
+const orderedWordCount = wordCount.reduce((accumulator, current) => {
+    if(accumulator.length === 0) {
+        accumulator.push(current);
+    } else {
+        const newWordIndex = accumulator.findIndex((arrayItem) => {
+            return current.quantity > arrayItem.quantity;
+        });
+
+        accumulator.splice(newWordIndex, 0, current);
+    }
+
+    return accumulator;
+}, []);
+
+console.log(orderedWordCount);
