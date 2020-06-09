@@ -43,7 +43,8 @@ const wordsArray = readAndDecodeFile(filePath)
             .replace(new RegExp(/\W/g),"")
             .trim();
     })
-    .filter(cur => cur !== '');
+    .filter(cur => cur !== '')
+    .sort();
 
 // console.log(wordsArray);
 
